@@ -32,6 +32,60 @@ public class CategoriaAppService(
 		}
     }
 
+    public async Task<EditarCategoriaResult?> Editar(EditarCategoriaCommand command)
+    {
+        try
+        {
+            var categoriaEditada = new Categoria(command.Titulo);
+
+            var sucesso = await repositorioCategoria.EditarAsync(command.Id, categoriaEditada);
+
+            if (!sucesso)
+                return null;
+
+            await dbContext.SaveChangesAsync();
+
+            return new EditarCategoriaResult(categoriaEditada.Titulo);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Ocorreu um erro durante a edição de {@Command}", command);
+
+            throw;
+        }
+    }
+
+    public async Task<ExcluirCategoriaResult?> Excluir(ExcluirCategoriaCommand command)
+    {
+        try
+        {
+            var sucesso = await repositorioCategoria.ExcluirAsync(command.Id);
+
+            if (!sucesso)
+                return null;
+
+            await dbContext.SaveChangesAsync();
+
+            return new ExcluirCategoriaResult();
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "Ocorreu um erro durante a exclusão de {@Command}", command);
+
+            throw;
+        }
+    }
+
+    public async Task<SelecionarCategoriaPorIdResult?> SelecionarPorId(SelecionarCategoriaPorIdQuery query)
+    {
+        var categoria = await repositorioCategoria.SelecionarPorIdAsync(query.Id);
+
+        if (categoria is null)
+            return null;
+
+        return new SelecionarCategoriaPorIdResult(categoria.Id, categoria.Titulo);
+    }
+
     public async Task<SelecionarCategoriasResult> SelecionarTodas()
     {
         var registros = await repositorioCategoria.SelecionarTodosAsync();
