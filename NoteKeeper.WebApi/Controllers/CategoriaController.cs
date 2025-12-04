@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NoteKeeper.Aplicacao.ModuloCategoria;
-using NoteKeeper.Dominio.ModuloCategoria;
 
 namespace NoteKeeper.WebApi.Controllers;
 
 [ApiController]
-[Route("/api/categorias")]
+[Route("api/categorias")]
 public class CategoriaController(CategoriaAppService categoriaAppService) : ControllerBase
 {
     [HttpPost]
