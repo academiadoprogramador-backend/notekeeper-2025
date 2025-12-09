@@ -12,7 +12,10 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-        builder.Services.AddCamadaInfraestruturaOrm(builder.Configuration);
+        builder.Services
+            .AddCamadaInfraestruturaOrm(builder.Configuration)
+            .AddCamadaInfraestruturaIdentity(builder.Configuration);
+
         builder.Services.AddCamadaAplicacao();
 
         builder.Services.AddSwaggerConfig();

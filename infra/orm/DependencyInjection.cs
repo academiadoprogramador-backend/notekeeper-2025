@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Identity;
+using NoteKeeper.Dominio.ModuloAutenticacao;
 using NoteKeeper.Infraestrutura.Orm.Compartilhado;
 using NoteKeeper.Infraestrutura.Orm.ModuloCategoria;
 using NoteKeeper.Infraestrutura.Orm.ModuloNota;
@@ -21,6 +23,26 @@ public static class DependencyInjection
 
         services.AddScoped<RepositorioCategoriaEmOrm>();
         services.AddScoped<RepositorioNotaEmOrm>();
+
+        return services;
+    }
+
+    public static IServiceCollection AddCamadaInfraestruturaIdentity(
+        this IServiceCollection services,
+        IConfiguration configuration
+    )
+    {
+        services.AddIdentity<Usuario, Cargo>(options =>
+        {
+            options.User.RequireUniqueEmail = true;
+            options.Password.RequireDigit = true;
+            options.Password.RequireLowercase = true;
+            options.Password.RequireUppercase = true;
+            options.Password.RequireNonAlphanumeric = true;
+            options.Password.RequiredLength = 6;
+        })
+        .AddEntityFrameworkStores<AppDbContext>()
+        .AddDefaultTokenProviders();
 
         return services;
     }
