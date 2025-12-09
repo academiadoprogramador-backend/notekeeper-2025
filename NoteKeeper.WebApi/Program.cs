@@ -14,7 +14,8 @@ public class Program
         // Add services to the container.
         builder.Services
             .AddCamadaInfraestruturaOrm(builder.Configuration)
-            .AddCamadaInfraestruturaIdentity(builder.Configuration);
+            .AddCamadaInfraestruturaIdentity(builder.Configuration)
+            .AddJwtAuthentication(builder.Configuration);
 
         builder.Services.AddCamadaAplicacao();
 
