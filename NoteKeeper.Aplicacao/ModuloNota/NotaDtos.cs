@@ -2,20 +2,20 @@
 
 namespace NoteKeeper.Aplicacao.ModuloNota;
 
-// --- Cadastrar ---
+// Cadastrar
 public record CadastrarNotaCommand(string Titulo, string Conteudo, Guid CategoriaId);
 public record CadastrarNotaResult(Guid Id);
 
-// --- Editar ---
+// Editar
 public record EditarNotaPartialCommand(string Titulo, string Conteudo, Guid CategoriaId);
 public record EditarNotaCommand(Guid Id, string Titulo, string Conteudo, Guid CategoriaId);
 public record EditarNotaResult(string Titulo, string Conteudo, Guid CategoriaId);
 
-// --- Excluir ---
+// Excluir
 public record ExcluirNotaCommand(Guid Id);
 public record ExcluirNotaResult();
 
-// --- Consultar Por Id ---
+// Consultar Por Id
 public record SelecionarNotaPorIdQuery(Guid Id);
 public record SelecionarNotaPorIdResult(
     Guid Id,
@@ -24,7 +24,7 @@ public record SelecionarNotaPorIdResult(
     SelecionarCategoriasDto Categoria
 );
 
-// --- Consultar ---
+// Consultar
 public record SelecionarNotasQuery();
 public record SelecionarNotasResult(IReadOnlyList<SelecionarNotasDto> Registros);
 public record SelecionarNotasDto(

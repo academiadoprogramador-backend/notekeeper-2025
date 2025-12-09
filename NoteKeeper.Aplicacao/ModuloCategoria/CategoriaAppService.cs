@@ -16,6 +16,11 @@ public class CategoriaAppService(
     {
 		try
 		{
+            var registros = await repositorioCategoria.SelecionarTodosAsync();
+
+            if (registros.Any(n => n.Titulo.Equals(command.Titulo, StringComparison.OrdinalIgnoreCase)))
+                return null;
+
             var categoria = new Categoria(command.Titulo);
 
             await repositorioCategoria.CadastrarAsync(categoria);
@@ -36,6 +41,16 @@ public class CategoriaAppService(
     {
         try
         {
+            var registros = await repositorioCategoria.SelecionarTodosAsync();
+
+            var tituloEmUso = registros.Any(n =>
+                !n.Id.Equals(command.Id) &&
+                n.Titulo.Equals(command.Titulo, StringComparison.OrdinalIgnoreCase)
+            );
+
+            if (tituloEmUso)
+                return null;
+
             var categoriaEditada = new Categoria(command.Titulo);
 
             var sucesso = await repositorioCategoria.EditarAsync(command.Id, categoriaEditada);
@@ -86,7 +101,7 @@ public class CategoriaAppService(
         return new SelecionarCategoriaPorIdResult(categoria.Id, categoria.Titulo);
     }
 
-    public async Task<SelecionarCategoriasResult> SelecionarTodas()
+    public async Task<SelecionarCategoriasResult> SelecionarTodas(SelecionarCategoriasQuery query)
     {
         var registros = await repositorioCategoria.SelecionarTodosAsync();
 

@@ -13,7 +13,7 @@ public class NotaController(NotaAppService notaAppService) : ControllerBase
         var resultado = await notaAppService.Cadastrar(command);
 
         if (resultado is null)
-            return BadRequest("Não foi possível cadastrar. Verifique se o título já existe ou se a categoria é válida.");
+            return BadRequest("Não foi possível cadastrar a nota. Verifique se o título já existe ou se a categoria é válida.");
 
         return CreatedAtAction(nameof(SelecionarPorId), new { id = resultado.Id }, resultado);
     }
@@ -49,15 +49,6 @@ public class NotaController(NotaAppService notaAppService) : ControllerBase
         return NoContent();
     }
 
-    [HttpGet]
-    public async Task<ActionResult<SelecionarNotasResult>> SelecionarTodos()
-    {
-        var query = new SelecionarNotasQuery();
-
-        var resultado = await notaAppService.SelecionarTodos(query);
-
-        return Ok(resultado);
-    }
 
     [HttpGet("{id:guid}")]
     public async Task<ActionResult<SelecionarNotaPorIdResult>> SelecionarPorId(Guid id)
@@ -68,6 +59,16 @@ public class NotaController(NotaAppService notaAppService) : ControllerBase
 
         if (resultado is null)
             return NotFound("Nota não encontrada.");
+
+        return Ok(resultado);
+    }
+
+    [HttpGet]
+    public async Task<ActionResult<SelecionarNotasResult>> SelecionarTodos()
+    {
+        var query = new SelecionarNotasQuery();
+
+        var resultado = await notaAppService.SelecionarTodos(query);
 
         return Ok(resultado);
     }

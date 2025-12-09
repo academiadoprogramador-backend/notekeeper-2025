@@ -101,7 +101,7 @@ public class NotaAppService(
             nota.Id,
             nota.Titulo,
             nota.Conteudo,
-            new SelecionarCategoriasDto(nota.CategoriaId, nota.Categoria.Titulo)
+            new SelecionarCategoriasDto(nota.CategoriaId, nota.Categoria?.Titulo ?? string.Empty)
         );
     }
 

@@ -15,7 +15,7 @@ public class CategoriaController(CategoriaAppService categoriaAppService) : Cont
         if (resultado is null)
             return BadRequest("Não foi possível cadastrar a categoria. Tente novamente.");
 
-        return Ok(resultado); // Código HTTP 200
+        return CreatedAtAction(nameof(SelecionarPorId), new { id = resultado.Id }, resultado);
     }
 
     [HttpPut("{id:guid}")]
@@ -38,6 +38,9 @@ public class CategoriaController(CategoriaAppService categoriaAppService) : Cont
 
         var result = await categoriaAppService.Excluir(command);
 
+        if (result is null)
+            return NotFound("Categoria não encontrada para exclusão.");
+
         return NoContent();
     }
 
@@ -46,15 +49,20 @@ public class CategoriaController(CategoriaAppService categoriaAppService) : Cont
     {
         var query = new SelecionarCategoriaPorIdQuery(id);
 
-        var resultado = await categoriaAppService.SelecionarPorId(query);
+        var result = await categoriaAppService.SelecionarPorId(query);
 
-        return Ok(resultado);
+        if (result is null)
+            return NotFound("Categoria não encontrada.");
+
+        return Ok(result);
     }
 
     [HttpGet]
     public async Task<ActionResult<SelecionarCategoriasResult>> SelecionarTodas()
     {
-        var result = await categoriaAppService.SelecionarTodas();
+        var query = new SelecionarCategoriasQuery();
+
+        var result = await categoriaAppService.SelecionarTodas(query);
 
         return Ok(result);
     }
