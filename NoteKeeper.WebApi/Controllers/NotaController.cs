@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using NoteKeeper.Aplicacao.ModuloNota;
 
 namespace NoteKeeper.WebApi.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("api/notas")]
 public class NotaController(NotaAppService notaAppService) : ControllerBase
 {

@@ -15,11 +15,9 @@ public class Program
         builder.Services.AddCamadaInfraestruturaOrm(builder.Configuration);
         builder.Services.AddCamadaAplicacao();
 
-        builder.Services.AddControllers();
+        builder.Services.AddSwaggerConfig();
 
-        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-        builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
+        builder.Services.AddControllers();
 
         var app = builder.Build();
 
@@ -33,6 +31,7 @@ public class Program
 
         app.UseHttpsRedirection();
 
+        app.UseAuthentication();
         app.UseAuthorization();
 
         app.MapControllers();

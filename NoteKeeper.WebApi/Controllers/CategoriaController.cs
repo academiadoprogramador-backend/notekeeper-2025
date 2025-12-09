@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using NoteKeeper.Aplicacao.ModuloCategoria;
 
 namespace NoteKeeper.WebApi.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("api/categorias")]
 public class CategoriaController(CategoriaAppService categoriaAppService) : ControllerBase
 {
